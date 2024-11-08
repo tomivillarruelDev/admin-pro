@@ -1,22 +1,15 @@
 <div id="main-wrapper">
-    <app-header></app-header>
+    <pages-header></pages-header>
 
-    <app-sidebar></app-sidebar>
+    <pages-sidebar></pages-sidebar>
 
     <div class="page-wrapper">
         <div class="container-fluid">
             <!--Breadcrumbs-->
-            <app-breadcrumbs></app-breadcrumbs>
+            <pages-breadcrumbs></pages-breadcrumbs>
+
             <!--Rutas-->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <router-outlet></router-outlet>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <router-outlet></router-outlet>
         </div>
 
         <!-- ============================================================== -->
