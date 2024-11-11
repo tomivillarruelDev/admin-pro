@@ -11,6 +11,8 @@ import { Graph1Component } from './graph1/graph1.component';
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { PromisesComponent } from './promises/promises.component';
+import { RxjsComponent } from './rxjs/rxjs.component';
 
 
 
@@ -21,6 +23,8 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
         PagesComponent,
         DashboardComponent,
         AccountSettingsComponent,
+        PromisesComponent,
+        RxjsComponent,
     ],
     imports: [
         CommonModule,
