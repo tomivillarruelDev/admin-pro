@@ -5,10 +5,12 @@ import { Router } from '@angular/router';
 
 import { environments } from '../../environments/environment';
 
+import { User } from '../models/user.model';
+
 import { RegisterForm } from '../shared/interfaces/register-form.interface';
 import { LoginForm } from '../shared/interfaces/login-form.interface';
-import { User } from '../models/user.model';
 import { ProfileForm } from '../shared/interfaces/profile-form.interface';
+import { GetUsersResponse } from '../shared/interfaces/get-users.interface';
 
 declare const google: any;
 
@@ -31,6 +33,14 @@ export class UserService {
         return this.user.uid!;
     }
 
+    get headers() {
+        return {
+            headers: {
+                'x-token': this.token,
+            },
+        };
+    }
+
     createUser(formData: RegisterForm) {
         return this.http.post(`${base_url}/users`, formData).pipe(
             tap((resp: any) => {
@@ -40,16 +50,16 @@ export class UserService {
     }
 
     updateUser(formData: ProfileForm) {
-        const newUser = {
+        const updateUser = {
             ...this.user,
             ...formData,
         };
 
-        return this.http.put(`${base_url}/users/${this.uid}`, newUser, {
-            headers: {
-                'x-token': this.token,
-            },
-        });
+        return this.http.put(
+            `${base_url}/users/${this.uid}`,
+            updateUser,
+            this.headers
+        );
     }
 
     login(formData: LoginForm) {
@@ -125,5 +135,46 @@ export class UserService {
         this.loginGoogle(response.credential).subscribe((resp) => {
             this.router.navigateByUrl('/');
         });
+    }
+
+    getUsers(from: number = 0): Observable<GetUsersResponse> {
+        return this.http
+            .get<GetUsersResponse>(
+                `${base_url}/users?from=${from}`,
+                this.headers
+            )
+            .pipe(
+                map((resp) => {
+                    const users: User[] = resp.users.map(
+                        (user) =>
+                            new User(
+                                user.name,
+                                user.email,
+                                '',
+                                user.img,
+                                user.google,
+                                user.role,
+                                user.uid
+                            )
+                    );
+                    return {
+                        total: resp.total,
+                        users,
+                    };
+                })
+            );
+    }
+
+    deleteUser(user: User) {
+        const url = `${base_url}/users/${user.uid}`;
+        return this.http.delete(url, this.headers);
+    }
+
+    saveUser(user: User) {
+        return this.http.put(
+            `${base_url}/users/${user.uid}`,
+            user,
+            this.headers
+        );
     }
 }

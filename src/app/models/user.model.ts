@@ -13,8 +13,10 @@ export class User {
         public uid?: string
     ) {}
 
-    get imageUrl() {
-        if ( this.img?.includes('https')) {
+    get imageUrl(): string {
+        if (!this.img) {
+            return `${base_url}/upload/users/no-image`;
+        } else if (this.img?.includes('https')) {
             return this.img;
         } else if (this.img) {
             return `${base_url}/upload/users/${this.img}`;

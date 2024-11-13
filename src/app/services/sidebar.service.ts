@@ -17,6 +17,16 @@ export class SidebarService {
                 { title: 'RXJS', path: 'rxjs' },
             ],
         },
+
+        {
+            title: 'Mantenimiento',
+            icon: 'ti-panel',
+            submenu: [
+                { title: 'Usuarios', path: 'users' },
+                { title: 'Hospitales', path: 'hospitals' },
+                { title: 'Doctores', path: 'doctors' }
+            ],
+        },
     ];
 
   constructor() { }
