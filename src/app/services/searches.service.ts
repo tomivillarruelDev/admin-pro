@@ -51,6 +51,14 @@ export class SearchesService {
                         return this.transformsUsers(resp.results);
                         break;
 
+                    case 'hospitals':
+                        return resp.results;
+                        break;
+
+                    case 'doctors':
+                        return resp.results;
+                        break;
+
                     default:
                         return [];
                 }

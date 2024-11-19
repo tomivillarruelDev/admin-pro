@@ -21,6 +21,7 @@ const base_url = environments.base_url;
 })
 export class UserService {
     public user!: User;
+    
     constructor(private http: HttpClient, private router: Router) {
         this.googleInit();
     }

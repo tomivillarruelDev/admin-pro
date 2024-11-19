@@ -1,0 +1,94 @@
+<div class="row animated fadeIn fast">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <input type="text"
+                        class="form-control"
+                        placeholder="Buscar Hospital"
+                        (keyup)="searchHospital(txtTerm.value)"
+                        #txtTerm>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn fast"
+    *ngIf="loading">
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Cargando...</h4>
+            <img src="/images/puff.svg" width="50" alt="">
+            <p class="mb-0">Espere un momento por favor.</p>
+        </div>
+    </div>
+</div>
+
+<div class="row fadeIn fast"
+    *ngIf="!loading">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="card-title">Total de Hospitales ({{ totalHospitals }}) - {{ hospitalsFrom }}</h4>
+                        <h6 class="card-subtitle">Lista de Hospitales registrados en el sistema</h6>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-right">
+                            <button class="btn btn-primary"
+                                    (click)="openSweetCreate()">
+                                <i class="fa fa-hospital"></i>
+                                Crear nuevo hospital
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-fixed">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;">Foto</th>
+                                <th style="width: 80%;">Nombre</th>
+                                <th style="width: 10%;" class="text-nowrap">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="support-table">
+                            <tr *ngFor="let hospital of hospitals">
+                                <td class="td-center">
+                                    <img [src]="hospital.img |  image: 'hospitals'"
+                                        class="avatar-img cursor"
+                                        [alt]="hospital.name"
+                                        (click)="openModal(hospital)">
+                                </td>
+                                <td>
+                                    <input type="text"
+                                            class="form-control"
+                                            placeholder="Nombre del hospital"
+                                            [(ngModel)]="hospital.name">
+                                </td>
+                                <td class="text-nowrap">
+                                    <div class="d-sm-flex justify-content-around">
+                                        <a data-toggle="tooltip"
+                                            data-original-title="Guardar"
+                                            class="cursor"
+                                            (click)="updateHospital(hospital)"> <i class="fa fa-save text-success"></i> </a>
+                                        <a data-toggle="tooltip"
+                                            data-original-title="Eliminar"
+                                            class="cursor"
+                                            (click)="deleteHospital(hospital)"> <i class="fa fa-close text-danger"></i> </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div *ngIf="txtTerm.value.length === 0">
+                    <button class="btn btn-secondary" (click)="changePage(-5)">Anteriores</button>
+                    &nbsp;
+                    <button class="btn btn-secondary" (click)="changePage(5)">Siguientes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

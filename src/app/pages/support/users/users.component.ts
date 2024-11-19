@@ -13,10 +13,12 @@ import { User } from '../../../models/user.model';
     templateUrl: './users.component.html'
 })
 export class UsersComponent implements OnInit, OnDestroy {
-    public totalUsers: number = 0;
     public users: User[] = [];
-    public usersTemp: User[] = [];
+
+    public totalUsers: number = 0;
     public usersFrom: number = 0;
+    public usersTemp: User[] = [];
+
     public loading: boolean = true;
     public imgSubs?: Subscription;
 
@@ -53,16 +55,6 @@ export class UsersComponent implements OnInit, OnDestroy {
             });
     }
 
-    searchUser(term: string): any | Subscription {
-        if (term.length == 0) {
-            return (this.users = this.usersTemp);
-        }
-
-        return this.searchesService.search('users', term).subscribe((users) => {
-            this.users = users;
-        });
-    }
-
     deleteUser(user: User): any {
         if (user.uid === this.userService.uid) {
             return Swal.fire({
@@ -95,18 +87,6 @@ export class UsersComponent implements OnInit, OnDestroy {
         });
     }
 
-    changePage(value: number): void {
-        this.usersFrom += value;
-
-        if (this.usersFrom < 0) {
-            this.usersFrom = 0;
-        } else if (this.usersFrom > this.totalUsers) {
-            this.usersFrom -= value;
-        }
-
-        this.getUsers();
-    }
-
     changeRole(user: User): any {
         return Swal.fire({
             title: '¿Estás seguro, quieres actualizar el rol de este usuario?',
@@ -129,6 +109,31 @@ export class UsersComponent implements OnInit, OnDestroy {
                 this.getUsers();
             }
         });
+    }
+
+    searchUser(term: string): any | Subscription {
+        if (term.length == 0) {
+            return (this.users = this.usersTemp);
+        }
+
+        this.loading = true;
+
+        return this.searchesService.search('users', term).subscribe((users: User[]) => {
+            this.users = users;
+            this.loading = false;
+        });
+    }
+
+    changePage(value: number): void {
+        this.usersFrom += value;
+
+        if (this.usersFrom < 0) {
+            this.usersFrom = 0;
+        } else if (this.usersFrom > this.totalUsers) {
+            this.usersFrom -= value;
+        }
+
+        this.getUsers();
     }
 
     openModal(user: User): void {

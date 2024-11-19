@@ -11,6 +11,9 @@ import { PromisesComponent } from './promises/promises.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './support/users/users.component';
+import { HospitalsComponent } from './support/hospitals/hospitals.component';
+import { DoctorsComponent } from './support/doctors/doctors.component';
+import { DoctorComponent } from './support/doctors/doctor/doctor.component';
 
 const routes: Routes = [
     {
@@ -28,6 +31,9 @@ const routes: Routes = [
 
             //Support
             { path: 'users', component: UsersComponent, data: {title: 'Usuarios del sistema'} },
+            { path: 'hospitals', component: HospitalsComponent, data: {title: 'Mantenimiento Hospitales'} },
+            { path: 'doctors', component: DoctorsComponent, data: {title: 'Mantenimiento de Doctores'} },
+            { path: 'doctor/:id', component: DoctorComponent, data: {title: 'Mantenimiento de Doctor'} },
         ],
     },
 ];
