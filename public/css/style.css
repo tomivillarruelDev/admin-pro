@@ -770,7 +770,8 @@ Main sidebar
 use profile section
 ******************/
 .sidebar-nav .user-profile > a img {
-  width: 30px;
+  width: 34px;
+  height: 34px;
   border-radius: 100%;
   margin-right: 10px; }
 
@@ -1063,7 +1064,8 @@ File: scss
     .topbar .top-navbar .navbar-nav > .nav-item.show {
       background: rgba(0, 0, 0, 0.05); }
   .topbar .profile-pic {
-    width: 30px;
+    width: 45px;
+    height: 45px;
     border-radius: 100%; }
   .topbar .dropdown-menu {
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
