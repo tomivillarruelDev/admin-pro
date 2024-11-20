@@ -24,6 +24,7 @@ import { HospitalsComponent } from './support/hospitals/hospitals.component';
 
 import { DoctorsComponent } from './support/doctors/doctors.component';
 import { DoctorComponent } from './support/doctors/doctor/doctor.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import { DoctorComponent } from './support/doctors/doctor/doctor.component';
         HospitalsComponent,
         DoctorsComponent,
         DoctorComponent,
+        SearchComponent,
     ],
     imports: [
         CommonModule,

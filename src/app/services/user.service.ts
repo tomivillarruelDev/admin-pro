@@ -11,6 +11,7 @@ import { RegisterForm } from '../shared/interfaces/register-form.interface';
 import { LoginForm } from '../shared/interfaces/login-form.interface';
 import { ProfileForm } from '../shared/interfaces/profile-form.interface';
 import { GetUsersResponse } from '../shared/interfaces/get-users.interface';
+import { Menu } from '../shared/interfaces/menu.interface';
 
 declare const google: any;
 
@@ -21,7 +22,7 @@ const base_url = environments.base_url;
 })
 export class UserService {
     public user!: User;
-    
+
     constructor(private http: HttpClient, private router: Router) {
         this.googleInit();
     }
@@ -34,6 +35,10 @@ export class UserService {
         return this.user.uid!;
     }
 
+    get role(): 'ADMIN_ROLE' | 'USER_ROLE' {
+        return this.user.role!;
+    }
+
     get headers() {
         return {
             headers: {
@@ -42,10 +47,15 @@ export class UserService {
         };
     }
 
+    saveLocalStorage(token: string, menu: Menu[]) {
+        localStorage.setItem('menu', JSON.stringify(menu));
+        localStorage.setItem('token', token);
+    }
+
     createUser(formData: RegisterForm) {
         return this.http.post(`${base_url}/users`, formData).pipe(
             tap((resp: any) => {
-                localStorage.setItem('token', resp.token);
+                this.saveLocalStorage(resp.token, resp.menu);
             })
         );
     }
@@ -66,7 +76,7 @@ export class UserService {
     login(formData: LoginForm) {
         return this.http.post(`${base_url}/login`, formData).pipe(
             tap((resp: any) => {
-                localStorage.setItem('token', resp.token);
+                this.saveLocalStorage(resp.token, resp.menu);
             })
         );
     }
@@ -74,7 +84,7 @@ export class UserService {
     loginGoogle(token: string) {
         return this.http.post(`${base_url}/login/google`, { token }).pipe(
             tap((resp: any) => {
-                localStorage.setItem('token', resp.token);
+                this.saveLocalStorage(resp.token, resp.menu);
             })
         );
     }
@@ -88,7 +98,6 @@ export class UserService {
             })
             .pipe(
                 map((resp: any) => {
-                    localStorage.setItem('token', this.token);
                     const {
                         name,
                         email,
@@ -108,6 +117,8 @@ export class UserService {
                         uid
                     );
 
+                    this.saveLocalStorage(resp.token, resp.menu);
+
                     return true;
                 }),
                 catchError((error) => of(false))
@@ -116,6 +127,7 @@ export class UserService {
 
     logout() {
         localStorage.removeItem('token');
+        localStorage.removeItem('menu');
         this.router.navigateByUrl('/login');
     }
 

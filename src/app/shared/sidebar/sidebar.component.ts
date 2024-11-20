@@ -9,14 +9,12 @@ import { User } from '../../models/user.model';
     templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent implements OnInit {
-    menuItems: Menu[];
 
     public user?: User;
     constructor(
-        private sidebarService: SidebarService,
+        public sidebarService: SidebarService,
         private userService: UserService
     ) {
-        this.menuItems = this.sidebarService.menu;
     }
 
     ngOnInit(): void {
